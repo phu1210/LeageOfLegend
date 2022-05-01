@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="champion">
+
+    <resultMap id="searchVO" type="com.arcane.LeagueOfLegend.domain.SearchVO">
+        <result column="CHAMPION_NO" property="championNo" javaType="String" jdbcType="NVARCHAR"/>
+        <result column="CHAMPION_NM" property="championNm" javaType="String" jdbcType="NVARCHAR"/>
+        <result column="CHAMPION_REGION" property="championRegion" javaType="String" jdbcType="NVARCHAR"/>
+        <result column="CHAMPION_POSITION" property="championPosition" javaType="String" jdbcType="NVARCHAR"/>
+    </resultMap>
+
+    <select id="getSummonerInfo" parameterMap="searchVO" resultType="java.util.HashMap">
+        SELECT CHAMPION_NO
+            , CHAMPION_NM
+            , CHAMPION_REGION
+            , CHAMPION_POSITION
+        FROM tchampion
+        WHERE 1=1
+            <if test="championNm != null AND championNm != ''">
+                AND CHAMPION_NM = #championNm#
+            </if>
+            <if test="championRegion != null AND championRegion != ''">
+                AND CHAMPION_REGION = #championRegion#
+            </if>
+            <if test="championPosition != null AND championPosition != ''">
+                AND CHAMPION_POSITION = #championPosition#
+            </if>
+        ;
+    </select>
+
+</mapper>
